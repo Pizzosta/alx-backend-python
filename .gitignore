@@ -1,5 +1,6 @@
 # ignore pycache files
 __pycache__
+.mypy_cache
 
 # ignore bash script
 push.sh
