@@ -3,11 +3,12 @@
 import unittest
 from typing import Any, Dict, Tuple
 from parameterized import parameterized
-from utils import access_nested_map
+from unittest.mock import patch, Mock
+from utils import access_nested_map, get_json
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    '''tests the utils.access_nested_map function'''
+    """Tests the utils.access_nested_map function"""
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
@@ -19,7 +20,7 @@ class TestAccessNestedMap(unittest.TestCase):
         path: Tuple[str, ...],
         expected_result: Any
     ) -> None:
-        '''tests the utils.access_nested_map function output'''
+        """Tests the utils.access_nested_map function output"""
         self.assertEqual(access_nested_map(nested_map, path), expected_result)
 
     @parameterized.expand([
@@ -32,6 +33,29 @@ class TestAccessNestedMap(unittest.TestCase):
         path: Tuple[str, ...],
         expected_exception: Exception
     ) -> None:
-        '''tests the utils.access_nested_map function raising exception'''
+        """Tests the utils.access_nested_map function raising exception"""
         with self.assertRaises(expected_exception):
             access_nested_map(nested_map, path)
+
+
+class TestGetJson(unittest.TestCase):
+    """Tests the utils.get_json function."""
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
+    ])
+    @patch("utils.requests.get")
+    def test_get_json(
+            self,
+            test_url: str,
+            test_payload: Dict,
+            mock_get: Mock
+    ) -> None:
+        """Tests the utils.get_json function output."""
+        mock_get.return_value = Mock()
+        mock_get.return_value.json.return_value = test_payload
+
+        result = get_json(test_url)
+
+        mock_get.assert_called_once_with(test_url)
+        self.assertEqual(result, test_payload)
