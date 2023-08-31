@@ -49,11 +49,11 @@ class TestGetJson(unittest.TestCase):
             self,
             test_url: str,
             test_payload: Dict,
-            mock_get: Mock
+            mock_get: Mock,
     ) -> None:
         """Tests the utils.get_json function output."""
-        mock_get.return_value = Mock()
-        mock_get.return_value.json.return_value = test_payload
+        attrs = {'json.return_value': test_payload}
+        mock_get.return_value = Mock(**attrs)
 
         result = get_json(test_url)
 
