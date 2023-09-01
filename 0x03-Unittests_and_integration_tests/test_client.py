@@ -32,8 +32,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         self.assertEqual(org_info, expected_result)
 
-    @patch('client.GithubOrgClient.org')
-    def test_public_repos_url(self, mock_org: PropertyMock) -> None:
+    def test_public_repos_url(self) -> None:
         """Tests the _public_repos_url property."""
         with patch(
                 "client.GithubOrgClient.org",
