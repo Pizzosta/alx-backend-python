@@ -1,10 +1,10 @@
-#!/usr/bin/python3
-"""a mdule for testing client.GithubOrgClient"""
+#!/usr/bin/env python3
+"""A module for testing client.GithubOrgClient"""
 import unittest
 from typing import Dict
 from unittest.mock import patch, MagicMock
 from parameterized import parameterized
-from client import GithubOrgClient  # Adjust the import path
+from client import GithubOrgClient
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -14,7 +14,6 @@ class TestGithubOrgClient(unittest.TestCase):
         ("google", {"login": "google"}),
         ("abc", {"login": "abc"}),
     ])
-    # Assuming get_json is a method in your client module
     @patch('client.get_json')
     def test_org(
         self,
